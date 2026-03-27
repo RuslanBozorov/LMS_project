@@ -1,0 +1,43 @@
+# node modules
+node_modules
+npm-debug.log
+
+# logs
+logs
+*.log
+
+# environment files
+.env
+.env.*
+
+# build files
+dist
+build
+.next
+out
+
+# git
+.git
+.gitignore
+
+# docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# IDE
+.vscode
+.idea
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# tests
+coverage
+*.test.js
+*.spec.js
+
+# temp
+tmp
+temp
