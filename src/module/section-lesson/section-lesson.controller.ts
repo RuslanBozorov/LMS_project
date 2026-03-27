@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, Body, Param, ParseIntPipe, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Body, Param, ParseIntPipe, UseGuards, Req, ForbiddenException } from '@nestjs/common';
 import { SectionLessonService } from './section-lesson.service';
 import { ApiTags, ApiOperation, ApiBearerAuth, ApiConsumes, ApiBody } from '@nestjs/swagger';
 import { UserRole } from '@prisma/client';
@@ -19,6 +19,15 @@ export class SectionLessonController {
   @Get('course/:courseId')
   async getByCourse(@Param('courseId', ParseIntPipe) courseId: number) {
     return this.sectionLessonService.getByCourse(courseId);
+  }
+
+  @ApiBearerAuth()
+  @Roles(UserRole.STUDENT)
+  @ApiOperation({ summary: 'STUDENT' })
+  @Get('my-course/:courseId')
+  async getMyCourseSections(@Param('courseId', ParseIntPipe) courseId: number, @Req() req: any) {
+    const userId = req.user.id;
+    return this.sectionLessonService.getByCourseForStudent(courseId, userId);
   }
 
   @ApiBearerAuth()
