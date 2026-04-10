@@ -8,7 +8,18 @@ export class PrismaService
   implements OnModuleDestroy, OnModuleInit
 {
   constructor() {
-    const stringConnection = process.env.DATABASE_URL;
+    const stringConnection =
+      process.env.DATABASE_URL ||
+      process.env.RENDER_DATABASE_URL ||
+      process.env.POSTGRES_URL ||
+      process.env.PGDATABASE_URL;
+
+    if (!stringConnection) {
+      throw new Error(
+        'DATABASE_URL is not defined. Set DATABASE_URL in Render env vars or attach the managed database to the service.'
+      );
+    }
+
     const pool = new Pool({
       connectionString: stringConnection,
     });

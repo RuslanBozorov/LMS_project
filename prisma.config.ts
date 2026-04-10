@@ -9,12 +9,6 @@ const databaseUrl =
   process.env["POSTGRES_URL"] ||
   process.env["PGDATABASE_URL"];
 
-if (!databaseUrl) {
-  throw new Error(
-    'DATABASE_URL is not defined. Set DATABASE_URL in Render env vars or attach the managed database to the service.'
-  );
-}
-
 export default defineConfig({
   schema: "prisma/schema.prisma",
   migrations: {
