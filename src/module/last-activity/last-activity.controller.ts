@@ -21,15 +21,15 @@ export class LastActivityController {
         return this.lastActivityService.getAll();
     }
 
-    @ApiOperation({ summary: 'MENTOR, ASSISTANT, STUDENT' })
-    @Roles(UserRole.MENTOR, UserRole.ASSISTANT, UserRole.STUDENT)
+    @ApiOperation({ summary: 'MENTOR, STUDENT' })
+    @Roles(UserRole.MENTOR, UserRole.STUDENT)
     @Patch()
     async upsert(@Req() req, @Body() dto: UpsertLastActivityDto) {
         return this.lastActivityService.upsert(req.user.id, dto);
     }
 
-    @ApiOperation({ summary: 'MENTOR, ASSISTANT, STUDENT' })
-    @Roles(UserRole.MENTOR, UserRole.ASSISTANT, UserRole.STUDENT)
+    @ApiOperation({ summary: 'MENTOR STUDENT' })
+    @Roles(UserRole.MENTOR, UserRole.STUDENT)
     @Get()
     async getMyActivity(@Req() req) {
         return this.lastActivityService.getByUser(req.user.id);

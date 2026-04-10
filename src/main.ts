@@ -9,7 +9,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
   const config = new DocumentBuilder()
-    .setTitle('LMS API')
+    .setTitle('LMS_API')
     .setVersion('1.0')
     .addBearerAuth()
     .build();

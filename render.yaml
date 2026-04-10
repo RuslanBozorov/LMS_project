@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: lms-app
+    env: docker
+    plan: starter
+    dockerfilePath: Dockerfile
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        value: "postgresql://lms_db_3440_user:udeGD4Y0y7wrSImzn4XBfDRQOngBYbO8@dpg-d7cdat3bc2fs73esgu00-a/lms_db_3440"
+      - key: REDIS_HOST
+        value: "<YOUR_REDIS_HOST>"
+      - key: REDIS_PORT
+        value: "6379"
+      - key: JWT_SECRET
+        value: "343f8086cbf2c8236a5f52f2961917443f0a875deaf755f0073aca3c07ff051c"
+      - key: JWT_EXPIRES_IN
+        value: "24h"
+      - key: CLOUDINARY_CLOUD_NAME
+        value: "dgqfoffgj"
+      - key: CLOUDINARY_API_KEY
+        value: "362179194275199"
+      - key: CLOUDINARY_API_SECRET
+        value: "-Ze8usmX2vTPTr26V45mYe3DZZU"
+
+  - type: redis
+    name: lms-redis
+    plan: starter
+
+databases:
+  - name: lms-db
+    engine: postgres
+    plan: starter
