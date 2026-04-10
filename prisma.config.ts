@@ -3,12 +3,24 @@
 import "dotenv/config";
 import { defineConfig } from "prisma/config";
 
+const databaseUrl =
+  process.env["DATABASE_URL"] ||
+  process.env["RENDER_DATABASE_URL"] ||
+  process.env["POSTGRES_URL"] ||
+  process.env["PGDATABASE_URL"];
+
+if (!databaseUrl) {
+  throw new Error(
+    'DATABASE_URL is not defined. Set DATABASE_URL in Render env vars or attach the managed database to the service.'
+  );
+}
+
 export default defineConfig({
   schema: "prisma/schema.prisma",
   migrations: {
     path: "prisma/migrations",
   },
   datasource: {
-    url: process.env["DATABASE_URL"],
+    url: databaseUrl,
   },
 });
