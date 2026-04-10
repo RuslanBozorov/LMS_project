@@ -1,5 +1,5 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import Redis from 'ioredis';
+import { Redis } from '@upstash/redis';
 
 @Injectable()
 export class RedisService implements OnModuleInit {
@@ -7,20 +7,20 @@ export class RedisService implements OnModuleInit {
 
     onModuleInit() {
         this.client = new Redis({
-            host: process.env.HOST || 'localhost',
+            url: process.env.UPSTASH_REDIS_REST_URL!,
+            token: process.env.UPSTASH_REDIS_REST_TOKEN!,
         });
     }
 
     async set(key: string, value: number | string) {
-        await this.client.set(key, value, 'EX', 120);
+        await this.client.set(key, value, { ex: 120 }); // 120 sec
     }
 
     async get(key: string) {
-        return this.client.get(key);
+        return await this.client.get(key);
     }
 
-
-    async del(key:string){
-        this.client.del(key)
+    async del(key: string) {
+        await this.client.del(key);
     }
 }
