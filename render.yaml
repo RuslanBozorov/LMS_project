@@ -5,6 +5,8 @@ services:
     plan: starter
     dockerfilePath: Dockerfile
     autoDeploy: true
+    services:
+      - lms-redis
     databases:
       - lms-db
     envVars:
