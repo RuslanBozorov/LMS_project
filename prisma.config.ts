@@ -7,7 +7,8 @@ const databaseUrl =
   process.env["DATABASE_URL"] ||
   process.env["RENDER_DATABASE_URL"] ||
   process.env["POSTGRES_URL"] ||
-  process.env["PGDATABASE_URL"];
+  process.env["PGDATABASE_URL"] ||
+  "postgresql://postgres:postgres@localhost:5432/lms-db?schema=public";
 
 export default defineConfig({
   schema: "prisma/schema.prisma",
