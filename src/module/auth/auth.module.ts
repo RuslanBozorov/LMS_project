@@ -5,15 +5,11 @@ import { AuthService } from './auth.service';
 import { PrismaModule } from 'src/core/database/prisma.module';
 import type { StringValue } from 'ms';
 import { CloudinaryService } from 'src/core/cloudinary/cloudinary.service';
-import { RedisModule } from '@nestjs-modules/ioredis';
-import { VerificationModule } from '../verification/verification.module';
 
 const jwtExpiresIn = (process.env.JWT_EXPIRES_IN ?? '1h') as StringValue;
 
 @Module({
   imports: [
-    RedisModule,
-    VerificationModule,
     PrismaModule,
     JwtModule.register({
       global:true,
@@ -26,4 +22,3 @@ const jwtExpiresIn = (process.env.JWT_EXPIRES_IN ?? '1h') as StringValue;
   exports: [JwtModule],
 })
 export class AuthModule {}
-

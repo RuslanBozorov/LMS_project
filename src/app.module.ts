@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { UsersModule } from './module/users/users.module';
-import { VerificationModule } from './module/verification/verification.module';
+
 import { MentorProfileModule } from './module/mentor-profile/mentor-profile.module';
 import { CourseCategoryModule } from './module/course-category/course-category.module';
 import { CourseModule } from './module/course/course.module';
@@ -20,24 +20,16 @@ import { ExamResultModule } from './module/exam-result/exam-result.module';
 import { QuestionModule } from './module/question/question.module';
 import { QuestionAnswerModule } from './module/question-answer/question-answer.module';
 import { ConfigModule } from '@nestjs/config';
-import { RedisModule } from '@nestjs-modules/ioredis';
+
 import { AuthModule } from './module/auth/auth.module';
-import { EmailModule } from './common/email/email.module';
+
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    EmailModule,
-    RedisModule.forRoot({
-      type: 'single',
-      url:
-        process.env.REDIS_URL ||
-        `redis://${process.env.REDIS_HOST || process.env.HOST || 'localhost'}:${process.env.REDIS_PORT || 6379}`,
-    }),
     AuthModule,
-    VerificationModule,
     UsersModule,
     MentorProfileModule,
     CourseCategoryModule,
