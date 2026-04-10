@@ -13,7 +13,7 @@ export class RedisService implements OnModuleInit {
     }
 
     async set(key: string, value: number | string) {
-        await this.client.set(key, value, { ex: 120 }); // 120 sec
+        await this.client.set(key, value, { ex: 120 });
     }
 
     async get(key: string) {

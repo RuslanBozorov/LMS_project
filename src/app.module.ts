@@ -30,7 +30,9 @@ import { AuthModule } from './module/auth/auth.module';
     }),
     RedisModule.forRoot({
       type: 'single',
-      url: `redis://${process.env.REDIS_HOST || process.env.HOST || 'localhost'}:${process.env.REDIS_PORT || 6379}`,
+      url:
+        process.env.REDIS_URL ||
+        `redis://${process.env.REDIS_HOST || process.env.HOST || 'localhost'}:${process.env.REDIS_PORT || 6379}`,
     }),
     AuthModule,
     VerificationModule,
