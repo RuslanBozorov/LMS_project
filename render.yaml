@@ -1,9 +1,10 @@
 services:
   - type: web
     name: lms-app
-    env: docker
+    env: node
     plan: starter
-    dockerfilePath: Dockerfile
+    buildCommand: npm install && npm run build
+    startCommand: npm run start:prod
     autoDeploy: true
     services:
       - lms-redis

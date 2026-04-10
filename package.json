@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@nestjs-modules/ioredis": "^2.2.1",
+    "@nestjs-modules/mailer": "^2.3.4",
     "@nestjs/axios": "^4.0.1",
     "@nestjs/cli": "^11.0.19",
     "@nestjs/common": "^11.0.1",
@@ -39,7 +40,9 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
     "cloudinary": "^2.9.0",
+    "handlebars": "^4.7.9",
     "multer": "^2.1.1",
+    "nodemailer": "^8.0.5",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
@@ -50,8 +53,10 @@
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.1",
     "@types/express": "^5.0.0",
+    "@types/handlebars": "^4.0.40",
     "@types/jest": "^30.0.0",
     "@types/node": "^22.10.7",
+    "@types/nodemailer": "^8.0.0",
     "@types/supertest": "^6.0.2",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",

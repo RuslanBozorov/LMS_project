@@ -17,12 +17,12 @@ export class AuthController {
     schema: {
       type: 'object',
       properties: {
-        phone: { type: 'string', example: 'string' },
+        email: { type: 'string', format: 'email', example: 'admin@example.com' },
         password: { type: 'string', example: 'string' },
         fullname: { type: 'string', example: 'string' },
         image: { type: 'string', format: 'binary' },
       },
-      required: ['phone', 'password', 'fullname'],
+      required: ['email', 'password', 'fullname'],
     },
   })
   @UseInterceptors(FileInterceptor('image'))

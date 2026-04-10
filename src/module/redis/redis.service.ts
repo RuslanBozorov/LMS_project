@@ -1,26 +1,20 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import { Redis } from '@upstash/redis';
+import { Injectable } from '@nestjs/common';
+import { InjectRedis } from '@nestjs-modules/ioredis';
+import Redis from 'ioredis';
 
 @Injectable()
-export class RedisService implements OnModuleInit {
-    private client: Redis;
+export class RedisService {
+  constructor(@InjectRedis() private readonly redis: Redis) {}
 
-    onModuleInit() {
-        this.client = new Redis({
-            url: process.env.UPSTASH_REDIS_REST_URL!,
-            token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-        });
-    }
+  async get(key: string): Promise<string | null> {
+    return await this.redis.get(key);
+  }
 
-    async set(key: string, value: number | string) {
-        await this.client.set(key, value, { ex: 120 });
-    }
+  async set(key: string, value: string, ttl: number = 300): Promise<void> {
+    await this.redis.set(key, value, 'EX', ttl);
+  }
 
-    async get(key: string) {
-        return await this.client.get(key);
-    }
-
-    async del(key: string) {
-        await this.client.del(key);
-    }
+  async del(key: string): Promise<void> {
+    await this.redis.del(key);
+  }
 }

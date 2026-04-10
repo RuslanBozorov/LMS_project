@@ -22,12 +22,14 @@ import { QuestionAnswerModule } from './module/question-answer/question-answer.m
 import { ConfigModule } from '@nestjs/config';
 import { RedisModule } from '@nestjs-modules/ioredis';
 import { AuthModule } from './module/auth/auth.module';
+import { EmailModule } from './common/email/email.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    EmailModule,
     RedisModule.forRoot({
       type: 'single',
       url:

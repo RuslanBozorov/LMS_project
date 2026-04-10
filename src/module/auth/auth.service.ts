@@ -17,68 +17,66 @@ export class AuthService {
     @InjectRedis() private redis: Redis,
   ) {}
 
-  
-
   async register(dto: RegisterDto, file?: Express.Multer.File) {
-    const phone = dto.phone.replace(/\D/g, '')
-    const verified = await this.redis.get(`verified:${phone}`)
-    if (!verified) throw new UnauthorizedException('Telefon tasdiqlanmagan')
+    const email = dto.email.trim().toLowerCase();
+    const verified = await this.redis.get(`verified:${email}`);
+    if (!verified) throw new UnauthorizedException('Email tasdiqlanmagan');
 
     const exists = await this.prisma.users.findUnique({
-      where: { phone }
-    })
-    if (exists) throw new ConflictException('Bu telefon allaqachon mavjud')
+      where: { email },
+    });
+    if (exists) throw new ConflictException('Bu email allaqachon mavjud');
 
-    let imageUrl: string | null = null
+    let imageUrl: string | null = null;
     if (file) {
-      imageUrl = await this.cloudinaryService.uploadImage(file)
+      imageUrl = await this.cloudinaryService.uploadImage(file);
     }
 
-    const hash = await bcrypt.hash(dto.password, 10)
+    const hash = await bcrypt.hash(dto.password, 10);
 
     const user = await this.prisma.users.create({
       data: {
-        phone,
+        email,
         password: hash,
         fullname: dto.fullname,
-        image:    imageUrl,
-      }
-    })
+        image: imageUrl,
+      },
+    });
 
-    await this.redis.del(`verified:${phone}`)
-    return this.signToken(user)
+    await this.redis.del(`verified:${email}`);
+    return this.signToken(user);
   }
 
   async login(dto: LoginDto) {
-    const phone = dto.phone.replace(/\D/g, '')
+    const email = dto.email.trim().toLowerCase();
     const user = await this.prisma.users.findUnique({
-      where: { phone }
-    })
-    if (!user) throw new UnauthorizedException('Telefon yoki parol noto\'g\'ri')
+      where: { email },
+    });
+    if (!user) throw new UnauthorizedException('Email yoki parol noto\'g\'ri');
 
-    const isMatch = await bcrypt.compare(dto.password, user.password)
-    if (!isMatch) throw new UnauthorizedException('Telefon yoki parol noto\'g\'ri')
+    const isMatch = await bcrypt.compare(dto.password, user.password);
+    if (!isMatch) throw new UnauthorizedException('Email yoki parol noto\'g\'ri');
 
-    return this.signToken(user)
+    return this.signToken(user);
   }
 
   private signToken(user: {
-    id:       number
-    role:     UserRole
-    fullname: string
-    phone:    string
-    image:    string | null
+    id: number;
+    role: UserRole;
+    fullname: string;
+    email: string | null;
+    image: string | null;
   }) {
     return {
-      success:     true,
-      message:     'Muvaffaqiyatli',
+      success: true,
+      message: 'Muvaffaqiyatli',
       accessToken: this.jwtService.sign({ id: user.id, role: user.role }),
       user: {
         fullname: user.fullname,
-        phone:    user.phone,
-        role:     user.role,
-        image:    user.image,
-      }
-    }
+        email: user.email,
+        role: user.role,
+        image: user.image,
+      },
+    };
   }
 }
